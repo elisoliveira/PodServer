@@ -1,12 +1,13 @@
 package br.edu.ifpb.emailsharedpod;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author FILIPE
  */
-public class Email {
+public class Email implements Serializable{
 
     private String remetente;
     private List<Pessoa> destinatarios;

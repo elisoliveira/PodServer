@@ -36,4 +36,10 @@ public class Pessoa implements Serializable {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "Nome: " + nome + " <" + email + ">";
+    }
+    
+
 }
