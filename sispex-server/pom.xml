@@ -26,5 +26,10 @@
       <artifactId>sispex-common</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>ifpb.edu.br</groupId>
+      <artifactId>sixpex-pod</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 </project>

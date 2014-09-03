@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class ConnectionFactory {
 
-    public Connection getConexao() throws SQLException {
+    public static Connection getConexao() throws SQLException {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException ex) {

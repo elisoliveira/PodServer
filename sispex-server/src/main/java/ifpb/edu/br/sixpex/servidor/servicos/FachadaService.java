@@ -10,10 +10,9 @@ import br.edu.ifpb.emailsharedpod.Fachada;
 import br.edu.ifpb.emailsharedpod.Pessoa;
 import java.rmi.RemoteException;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,90 +29,78 @@ import org.apache.commons.mail.SimpleEmail;
  */
 public class FachadaService implements Fachada {
 
-    @Override
-    public String enviaEmail(List<String> emails, String textoDaMensagem) throws RemoteException {
-        String resultado = "Emails enviados com sucesso!";
-        try {
-            SimpleEmail simpleEmail = new SimpleEmail();
-            simpleEmail.setSmtpPort(587);
-            simpleEmail.setTLS(true);
-            simpleEmail.setAuthenticator(new DefaultAuthenticator("minhapesquisapraticas@gmail.com", "projetopraticas123"));
-            simpleEmail.setHostName("smtp.gmail.com");
-            simpleEmail.setFrom("minhapesquisapraticas@gmail.com");
-            simpleEmail.setSubject("[SISPEX - Elisiany Oliveira]");
-
-            simpleEmail.setMsg(textoDaMensagem);
-
-            List<InternetAddress> emailsAddress = new ArrayList<>();
-            for (String email : emails) {
-                emailsAddress.add(new InternetAddress(email));
-            }
-            simpleEmail.setTo(emailsAddress);
-            simpleEmail.setDebug(true);
-            simpleEmail.send();
-        } catch (EmailException | AddressException ex) {
-            resultado = ex.getMessage();
-        }
-        return resultado;
-    }
-
-    @Override
-    public List<String> getEmails() throws RemoteException {
-        List<String> emails = new ArrayList<>();
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/minhapesquisa", "postgres", "123456");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select email from aluno");
-            while (resultSet.next()) {
-                emails.add(resultSet.getString("email"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return emails;
-    }
 
     public String enviaEmail(Email email) throws RemoteException {
-        String resultado = "Emails enviados com sucesso!";
-        try {
-            SimpleEmail simpleEmail = new SimpleEmail();
-            simpleEmail.setSmtpPort(587);
-            simpleEmail.setTLS(true);
-            simpleEmail.setAuthenticator(new DefaultAuthenticator("minhapesquisapraticas@gmail.com", "projetopraticas123"));
-            simpleEmail.setHostName("smtp.gmail.com");
-            simpleEmail.setFrom("minhapesquisapraticas@gmail.com");
-            simpleEmail.setSubject("[SISPEX - Elisiany Oliveira]");
-
-            simpleEmail.setMsg(textoDaMensagem);
-
-            List<InternetAddress> emailsAddress = new ArrayList<>();
-            for (String email : emails) {
-                emailsAddress.add(new InternetAddress(email));
-            }
-            simpleEmail.setTo(emailsAddress);
-            simpleEmail.setDebug(true);
-            simpleEmail.send();
-        } catch (EmailException | AddressException ex) {
-            resultado = ex.getMessage();
-        }
-        return resultado;
-
+//        String resultado = "Emails enviados com sucesso!";
+//        try {
+//            SimpleEmail simpleEmail = new SimpleEmail();
+//            simpleEmail.setSmtpPort(587);
+//            simpleEmail.setTLS(true);
+//            simpleEmail.setAuthenticator(new DefaultAuthenticator("minhapesquisapraticas@gmail.com", "projetopraticas123"));
+//            simpleEmail.setHostName("smtp.gmail.com");
+//            simpleEmail.setFrom("minhapesquisapraticas@gmail.com");
+//            simpleEmail.setSubject("[SISPEX - Elisiany Oliveira]");
+//
+//            simpleEmail.setMsg(textoDaMensagem);
+//
+//            List<InternetAddress> emailsAddress = new ArrayList<>();
+//            for (String email : emails) {
+//                emailsAddress.add(new InternetAddress(email));
+//            }
+//            simpleEmail.setTo(emailsAddress);
+//            simpleEmail.setDebug(true);
+//            simpleEmail.send();
+//        } catch (EmailException | AddressException ex) {
+//            resultado = ex.getMessage();
+//        }
+//        return resultado;
+        return null;
     }
 
     public void salvar(Pessoa pessoa) throws RemoteException {
-    }
-
-    public List<Pessoa> listaPessoas() throws RemoteException {
         try {
-            ConnectionFactory cf = new ConnectionFactory();
-            Connection con = cf.getConexao();
-            String sql = "select * from pessoa";
-                
+            String sql = "insert into pessoa (nome, email) values (?, ?)";
+            Connection con = ConnectionFactory.getConexao();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, pessoa.getNome());
+            statement.setString(2, pessoa.getEmail());
             
         } catch (SQLException ex) {
             Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+    }
+
+    public List<Pessoa> listaPessoas() throws RemoteException {
+        List<Pessoa> listaDePessoas = new ArrayList<Pessoa>();
+        try {
+            String sql = "select * from pessoa";
+            Connection con = ConnectionFactory.getConexao();
+            PreparedStatement statement = con.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Pessoa pessoa = new Pessoa();
+                pessoa.setNome(resultSet.getString("nome"));
+                pessoa.setEmail(resultSet.getString("email"));
+                listaDePessoas.add(pessoa);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(listaDePessoas.size());
+        return listaDePessoas;
+    }
+
+    public static void main(String[] args) {
+
+        FachadaService s = new FachadaService();
+        try {
+            s.listaPessoas();
+
+        } catch (RemoteException ex) {
+            Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
