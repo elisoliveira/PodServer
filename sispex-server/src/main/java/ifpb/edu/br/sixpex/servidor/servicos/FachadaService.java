@@ -9,14 +9,8 @@ import br.edu.ifpb.emailsharedpod.Email;
 import br.edu.ifpb.emailsharedpod.Fachada;
 import br.edu.ifpb.emailsharedpod.Pessoa;
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -29,10 +23,20 @@ import org.apache.commons.mail.SimpleEmail;
  */
 public class FachadaService implements Fachada {
 
+    private SisPexDao sisPexDao = new SisPexDao();
+
     @Override
     public String enviaEmail(Email email) throws RemoteException {
-        salvaEmail(email);
-        String resultado = "Email(s) enviado(s) com sucesso!";
+        if (email.getId() != null) {
+           confirmEmail(email);
+        } else {
+            sisPexDao.salvaEmails(email);
+        }
+        return null;
+    }
+
+    private String confirmEmail(Email email) {
+        String resultado = null;
         try {
             SimpleEmail simpleEmail = new SimpleEmail();
             simpleEmail.setSmtpPort(587);
@@ -51,69 +55,23 @@ public class FachadaService implements Fachada {
             simpleEmail.setTo(emailsAddress);
             simpleEmail.setDebug(true);
             simpleEmail.send();
+            resultado = "Email(s) enviado(s) com sucesso!";
         } catch (AddressException | EmailException ex) {
-            resultado = "Erro : " + ex.getMessage();
         }
         return resultado;
     }
 
-    @Override
-    public void salvar(Pessoa pessoa) throws RemoteException {
-        try {
-            String sql = "insert into pessoa (nome, email) values (?, ?)";
-            Connection con = ConnectionFactory.getConexao();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, pessoa.getNome());
-            statement.setString(2, pessoa.getEmail());
-            statement.executeUpdate();
-            con.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void salvaEmail(Email email) throws RemoteException {
-        try {
-
-            String sql = "insert into email (remetente, destinatarios, assunto, mensagem) values (?, ?, ?, ?)";
-            Connection con = ConnectionFactory.getConexao();
-            PreparedStatement statement = con.prepareStatement(sql);
-
-            for (Pessoa destinatario : email.getDestinatarios()) {
-                statement.setString(1, "ifpbpod@gmail.com");
-                statement.setString(2, destinatario.getEmail());
-                statement.setString(3, email.getAssunto());
-                statement.setString(4, email.getMensagem());
-                statement.executeUpdate();
-            }
-
-            con.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public void salvaEmails(Email email) throws RemoteException {
+        sisPexDao.salvaEmails(email);
     }
 
     @Override
     public List<Pessoa> listaPessoas() throws RemoteException {
-        List<Pessoa> listaDePessoas = new ArrayList<>();
-        try {
-            String sql = "select * from pessoa";
-            Connection con = ConnectionFactory.getConexao();
-            PreparedStatement statement = con.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Pessoa pessoa = new Pessoa();
-                pessoa.setNome(resultSet.getString("nome"));
-                pessoa.setEmail(resultSet.getString("email"));
-                listaDePessoas.add(pessoa);
-            }
-            con.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println(listaDePessoas.size());
-        return listaDePessoas;
+        return sisPexDao.listaPessoas();
+    }
+
+    @Override
+    public void salvar(Pessoa pessoa) throws RemoteException {
+        sisPexDao.salvar(pessoa);
     }
 }

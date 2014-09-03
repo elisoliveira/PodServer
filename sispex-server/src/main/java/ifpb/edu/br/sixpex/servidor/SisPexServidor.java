@@ -6,11 +6,13 @@
 package ifpb.edu.br.sixpex.servidor;
 
 import br.edu.ifpb.emailsharedpod.Fachada;
+import ifpb.edu.br.sixpex.servidor.servicos.EmailTask;
 import ifpb.edu.br.sixpex.servidor.servicos.FachadaService;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
 
 /**
  *
@@ -19,17 +21,18 @@ import java.rmi.server.UnicastRemoteObject;
 public class SisPexServidor {
 
     public static void main(String[] args) {
-
         try {
-            Fachada fachada  = new FachadaService();
+            Fachada fachada = new FachadaService();
             Fachada fachadaStub = (Fachada) UnicastRemoteObject.exportObject(fachada, 10999);
             Registry registry = LocateRegistry.createRegistry(10999);
             registry.rebind("fachada", fachadaStub);
             System.out.println("Servidor Iniciado...");
-
         } catch (RemoteException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
+        Timer timer = new Timer();
+        timer.schedule(new EmailTask(), 0, 500*60);
+        
     }
 }

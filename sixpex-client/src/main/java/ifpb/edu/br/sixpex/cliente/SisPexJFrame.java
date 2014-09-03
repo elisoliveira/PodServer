@@ -172,8 +172,11 @@ public class SisPexJFrame extends javax.swing.JFrame {
                 email.setDestinatarios(pessoasSelecionadas);
 
                 String resposta = emailFachada.enviaEmail(email);
-                
-                JOptionPane.showMessageDialog(null, resposta, "SisPex", JOptionPane.INFORMATION_MESSAGE);
+                if (resposta != null) {
+                    JOptionPane.showMessageDialog(null, resposta, "SisPex", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Um erro inesperado ocorreu e os emails não foram enviados.", "SisPex", JOptionPane.INFORMATION_MESSAGE);
+                }
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "SisPex", JOptionPane.ERROR_MESSAGE);
             }
