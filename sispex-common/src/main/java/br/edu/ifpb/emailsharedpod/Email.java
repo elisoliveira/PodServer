@@ -15,7 +15,7 @@ public class Email implements Serializable {
     private List<Pessoa> destinatarios = new ArrayList<Pessoa>();
     private String assunto;
     private String mensagem;
-    private boolean tipo;
+    private boolean status;
     
 
     public Integer getId() {
@@ -58,13 +58,14 @@ public class Email implements Serializable {
         this.mensagem = mensagem;
     }
 
-    public boolean isTipo() {
-        return tipo;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setTipo(boolean tipo) {
-        this.tipo = tipo;
-    }   
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     
 
 }

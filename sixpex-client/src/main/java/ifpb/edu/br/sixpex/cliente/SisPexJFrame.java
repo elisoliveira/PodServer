@@ -73,7 +73,7 @@ public class SisPexJFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jListEmails);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("SixPex - Mala Direta");
+        jLabel1.setText("SixPex");
 
         botaoEnviarEmails.setText("Enviar Email");
         botaoEnviarEmails.addActionListener(new java.awt.event.ActionListener() {
@@ -121,10 +121,10 @@ public class SisPexJFrame extends javax.swing.JFrame {
                             .addComponent(jScrollPane2))
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(jScrollPane1))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(105, 105, 105)
-                            .addComponent(jLabel1))))
+                            .addComponent(jScrollPane1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -172,11 +172,11 @@ public class SisPexJFrame extends javax.swing.JFrame {
                 email.setDestinatarios(pessoasSelecionadas);
 
                 String resposta = emailFachada.enviaEmail(email);
-                if (resposta != null) {
-                    JOptionPane.showMessageDialog(null, resposta, "SisPex", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Um erro inesperado ocorreu e os emails não foram enviados.", "SisPex", JOptionPane.INFORMATION_MESSAGE);
-                }
+                //if (resposta != null) {
+                //    JOptionPane.showMessageDialog(null, resposta, "SisPex", JOptionPane.INFORMATION_MESSAGE);
+                //} else {
+                    JOptionPane.showMessageDialog(null, "Sua mensagem esta pronta para ser enviada.", "SisPex", JOptionPane.INFORMATION_MESSAGE);
+                //}
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "SisPex", JOptionPane.ERROR_MESSAGE);
             }

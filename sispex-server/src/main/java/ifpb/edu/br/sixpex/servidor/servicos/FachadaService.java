@@ -29,7 +29,9 @@ public class FachadaService implements Fachada {
     public String enviaEmail(Email email) throws RemoteException {
         if (email.getId() != null) {
            confirmEmail(email);
-        } else {
+           return "ok!";
+        }
+        else {
             sisPexDao.salvaEmails(email);
         }
         return null;

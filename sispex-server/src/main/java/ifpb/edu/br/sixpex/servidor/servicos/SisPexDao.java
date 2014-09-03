@@ -93,6 +93,7 @@ public class SisPexDao implements Serializable {
                 email.setAssunto(resultSet.getString("assunto"));
                 email.setMensagem(resultSet.getString("mensagem"));
                 email.getDestinatarios().add(pessoa);
+                
                 listaDeEmailNaoEnviados.add(email);
             }
             con.close();
