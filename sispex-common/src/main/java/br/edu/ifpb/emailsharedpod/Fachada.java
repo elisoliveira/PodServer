@@ -12,4 +12,5 @@ public interface Fachada extends Remote{
     public String enviaEmail(Email email) throws RemoteException;
     public void salvar(Pessoa pessoa) throws RemoteException;
     public List<Pessoa> listaPessoas() throws RemoteException;
+    public Long latencia(byte[] array) throws RemoteException; 
 }

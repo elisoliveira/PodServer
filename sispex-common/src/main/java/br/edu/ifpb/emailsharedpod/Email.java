@@ -74,9 +74,5 @@ public class Email implements Serializable {
                 + "Message: " + mensagem + ". \n"
                 + "Status: " + status;
     }
-    
-    
-
-    
 
 }

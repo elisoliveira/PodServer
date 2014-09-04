@@ -15,16 +15,24 @@ import java.util.logging.Logger;
  *
  * @author Elisiany
  */
-public class Teste {
+public class Main {
 
     public static void main(String[] args) {
         try {
             FachadaService s = new FachadaService();
 
-            Pessoa p = new Pessoa();
+            Pessoa p = new Pessoa();            
+            
+            p.setNome("Elisiany");
+            p.setEmail("oelisiany@gmail.com");
+            s.salvar(p);
             p.setNome("Izabel");
             p.setEmail("ads.izabel@gmail.com");
             s.salvar(p);
+            p.setNome("Luciana");
+            p.setEmail("luciana.gadelhaa@gmail.com");
+            s.salvar(p);
+                       
 
         } catch (RemoteException ex) {
             Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);

@@ -28,9 +28,8 @@ public class FachadaService implements Fachada {
     @Override
     public String enviaEmail(Email email) throws RemoteException {
         if (email.getId() != null) {
-           return confirmEmail(email);
-        }
-        else {
+            return confirmEmail(email);
+        } else {
             sisPexDao.salvaEmails(email);
         }
         return null;
@@ -75,4 +74,17 @@ public class FachadaService implements Fachada {
     public void salvar(Pessoa pessoa) throws RemoteException {
         sisPexDao.salvar(pessoa);
     }
+
+       @Override
+    public Long latencia(byte[] array) {
+        long tempo1 = System.currentTimeMillis();
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException ex) {
+            return null;
+        }
+        long tempo2 = System.currentTimeMillis();
+        return tempo2-tempo1;
+    }
+
 }
