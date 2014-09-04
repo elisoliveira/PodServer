@@ -27,7 +27,7 @@ public class EmailTask extends TimerTask {
     @Override
     public void run() {
         
-        System.out.println("[ Aguarde, estamos verificando se existe alguma mensagem pendente.]");
+        System.out.println("Verificando mensagens pendentes...");
 
         List<Email> menssages = sisPexDao.listaEmailsNaoEnviados();
 

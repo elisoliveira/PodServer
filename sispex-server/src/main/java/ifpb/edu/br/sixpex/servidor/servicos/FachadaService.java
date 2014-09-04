@@ -75,7 +75,7 @@ public class FachadaService implements Fachada {
         sisPexDao.salvar(pessoa);
     }
 
-       @Override
+    @Override
     public Long latencia(byte[] array) {
         long tempo1 = System.currentTimeMillis();
         try {
@@ -84,7 +84,7 @@ public class FachadaService implements Fachada {
             return null;
         }
         long tempo2 = System.currentTimeMillis();
-        return tempo2-tempo1;
+        return tempo2 - tempo1;
     }
 
 }

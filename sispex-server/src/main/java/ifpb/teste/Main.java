@@ -21,8 +21,8 @@ public class Main {
         try {
             FachadaService s = new FachadaService();
 
-            Pessoa p = new Pessoa();            
-            
+            Pessoa p = new Pessoa();
+
             p.setNome("Elisiany");
             p.setEmail("oelisiany@gmail.com");
             s.salvar(p);
@@ -32,7 +32,30 @@ public class Main {
             p.setNome("Luciana");
             p.setEmail("luciana.gadelhaa@gmail.com");
             s.salvar(p);
-                       
+            p.setNome("Izaquiel");
+            p.setEmail("zefcruzbs@gmail.com");
+            s.salvar(p);
+            p.setNome("Fernando");
+            p.setEmail("fernandodof@gmail.com");
+            s.salvar(p);
+            p.setNome("Kelson");
+            p.setEmail("kelsonsd@gmail.com");
+            s.salvar(p);
+            p.setNome("Wagner");
+            p.setEmail("wagner.abreucz@gmail.com");
+            s.salvar(p);
+            p.setNome("Filipe");
+            p.setEmail("filipegermano89@gmail.com");
+            s.salvar(p);
+            p.setNome("Marciel");
+            p.setEmail("marcielmj@gmail.com");
+            s.salvar(p);
+            p.setNome("Magdiel");
+            p.setEmail("magdiel.ildefonso@gmail.com");
+            s.salvar(p);
+            p.setNome("Joel");
+            p.setEmail("joelanio@gmail.com");
+            s.salvar(p);
 
         } catch (RemoteException ex) {
             Logger.getLogger(FachadaService.class.getName()).log(Level.SEVERE, null, ex);
