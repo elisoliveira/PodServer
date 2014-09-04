@@ -1,0 +1,47 @@
+Equipe:
+	Elisiany Oliveira
+	Izabel Silva
+	Luciana Gadelha
+
+O projeto possue 3 pastas, são elas:
+
+sispex-common -> possue as entidades e interface do sistema.
+
+sispex-server -> possue as implementações da interface do
+	projeto "sispex-common", as classes necessárias
+	para fazer comunicação com o servidor como também uma classe
+	main para iniciar o servidor.
+	
+OBS: possue uma classe "main" apenas para inserção de emails
+	no banco.
+
+sispex-cliente -> possue a classe com o método lookup e a 
+	interface swing para comunicação com o servidor.
+
+
+Latência:
+	O método de calcular a latência é usada na classe "EmailTask" 
+	que se encontra no projeto "sispex-server".
+
+	Caso exista um email pendente, o método "run()" desta classe 
+	irá tentar reenviá-lo e junto com o email pendente que fica salvo
+	no banco, o resultado do calculo da latência também é enviado para
+	o email.
+	
+	Após o envio, o status do email passa de "false" para "true", e assim 
+	ele não será enviado novamente.
+
+OBS: O método da latência está na interface "Fachada" (no projeto "sispex-common")
+e implementada na classe "FachadaService" (no projeto "sispex-server").
+
+
+Ping (tratamento de erro):
+	O tratamento de ping é realizado na classe "FachadaService".
+	Quando uma mensagem é enviada, ela tem por default seu status como "false",
+	ou seja, não foi enviado ainda. Caso não tenha internet, o status continua
+	falso, e o servidor continua rodando e verificando se ainda há alguma 
+	mensagem pendente e tentando enviá-lo.
+	Quando o computador se conecta a internet, o servidor (que ainda está 
+	verificando se a mensagem pendente) envia os emails e seta o status 
+	de false para "true", ou seja, ele faz o envio assim que o computador
+	se conecta a internet.
