@@ -32,7 +32,7 @@ public class SisPexServidor {
             ex.printStackTrace();
         }
         Timer timer = new Timer();
-        timer.schedule(new EmailTask(), 0, 500*60);
+        timer.schedule(new EmailTask(), 0, 100*60);
         
     }
 }
