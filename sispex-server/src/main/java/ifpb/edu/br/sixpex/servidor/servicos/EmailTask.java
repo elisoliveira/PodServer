@@ -36,7 +36,7 @@ public class EmailTask extends TimerTask {
                 registry = LocateRegistry.getRegistry("localhost", 10999);
                 Fachada service = (Fachada) registry.lookup("fachada");
                 for (Email email : menssages) {
-
+                    System.out.println(email.toString());
                     String resultado = service.enviaEmail(email);
                     if (resultado != null) {
                         sisPexDao.atualizaEmail(email);

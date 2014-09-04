@@ -66,6 +66,17 @@ public class Email implements Serializable {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Email pendente: " + "From: <" + remetente + "> \n"
+                + "To: <" + destinatarios + "> \n"
+                + "Title: " + assunto + ". \n"
+                + "Message: " + mensagem + ". \n"
+                + "Status: " + status;
+    }
+    
+    
+
     
 
 }

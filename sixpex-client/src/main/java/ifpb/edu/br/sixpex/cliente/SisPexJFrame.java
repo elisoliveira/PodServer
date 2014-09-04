@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author Elisiany
  */
 public class SisPexJFrame extends javax.swing.JFrame {
-
+    
     private Fachada emailFachada;
 
     /**
@@ -31,11 +31,11 @@ public class SisPexJFrame extends javax.swing.JFrame {
         inicializaFachada();
         preencheJListComEmails();
     }
-
+    
     private void inicializaFachada() {
         emailFachada = SisPexLocator.lookup();
     }
-
+    
     private void preencheJListComEmails() {
         try {
             List<Pessoa> pessoas = emailFachada.listaPessoas();
@@ -149,34 +149,36 @@ public class SisPexJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoEnviarEmailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEnviarEmailsActionPerformed
-
+        
         List<Pessoa> pessoasSelecionadas = new ArrayList<>();
         DefaultListModel listModel = (DefaultListModel) jListEmails.getModel();
-
+        
         int[] indicesSelecionados = jListEmails.getSelectedIndices();
-
+        
         for (int index : indicesSelecionados) {
             pessoasSelecionadas.add((Pessoa) listModel.getElementAt(index));
         }
-
+        
         if (pessoasSelecionadas.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nenhum Email Selecionado", "SisPex", JOptionPane.WARNING_MESSAGE);
         } else if (campoMensagem.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Digite o texto da mensagem", "SisPex", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
-
+                
                 Email email = new Email();
                 email.setAssunto("Alerta elis");
                 email.setMensagem(campoMensagem.getText());
                 email.setDestinatarios(pessoasSelecionadas);
-
+                
                 String resposta = emailFachada.enviaEmail(email);
                 //if (resposta != null) {
                 //    JOptionPane.showMessageDialog(null, resposta, "SisPex", JOptionPane.INFORMATION_MESSAGE);
                 //} else {
-                    JOptionPane.showMessageDialog(null, "Sua mensagem esta pronta para ser enviada.", "SisPex", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Sua mensagem esta pronta para ser enviada.", "SisPex", JOptionPane.INFORMATION_MESSAGE);
                 //}
+                
+                campoMensagem.setText("");
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "SisPex", JOptionPane.ERROR_MESSAGE);
             }
